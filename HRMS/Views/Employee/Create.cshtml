@@ -1,0 +1,242 @@
+﻿@{
+    Layout = "_NoNavLayout";
+}
+
+<!-- Multi Columns Form -->
+<form class="row g-3" method="post" enctype="multipart/form-data" style="text-align:center">
+
+    <div class="col-md-4">
+        <label for="firstName" class="form-label">First Name</label>
+        <input for="firstName" class="form-control" id="firstName">
+    </div>
+    <div class="col-md-4">
+        <label for="midName" class="form-label">Middle Name</label>
+        <input for="midName" class="form-control" placeholder="(Optional)" id="midName">
+    </div>
+    <div class="col-md-4">
+        <label for="lastName" class="form-label">Last Name</label>
+        <input for="lastName" class="form-control" id="lastName">
+    </div>
+
+    <div class="col-md-4">
+        <label for="UserName" class="form-label">E-mail ID</label>
+        <input for="UserName" type="email" class="form-control" id="UserName">
+    </div>
+    <div class="col-md-4">
+        <label for="Password" class="form-label">Password</label>
+        <input for="Password" class="form-control" type="password" id="Password">
+    </div>
+    <div class="col-md-4">
+        <label for="ConfirmPassword" class="form-label">Confirm Password</label>
+        <input for="ConfirmPassword" class="form-control" type="password" id="ConfirmPassword">
+    </div>
+
+    <div class="col-md-4">
+        <label for="birthDate" class="form-label">Date of Birth</label>
+        <input type="date" for="birthDate" class="form-control" id="birthDate">
+    </div>
+    <div class="col-md-4">
+        <label for="age" class="form-label">Age</label>
+        <input for="age" class="form-control" id="age" readonly>
+    </div>
+    <div class="col-md-4">
+        <label for="sex" class="form-label">Sex</label>
+        <select for="sex" class="form-control" id="sex">
+            <option value=""></option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </select>
+    </div>
+
+
+    <div class="col-md-12">
+        <label for="address" class="form-label">Address</label>
+        <input for="address" class="form-control" id="address">
+    </div>
+
+    <div class="col-md-4">
+        <label for="positionId" class="control-label">Position</label>
+        <select for="positionId" id="positionId" name="positionId" class="form-control">
+            <option value=""></option>
+
+            @foreach (var position in ViewBag.positions)
+            {
+                <option value="@position.positionId">@position.positionName</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-4">
+        <label for="deptId" class="control-label">Department</label>
+        <select for="deptId" id="deptId" name="deptId" class="form-control">
+            <option value=""></option>
+            @foreach (var dept in ViewBag.departments)
+            {
+                <option value="@dept.departmentId">@dept.departmentName</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-4">
+        <label for="locationId" class="control-label">Location</label>
+        <select for="locationId" id="locationId" name="locationId" class="form-control">
+            <option value=""></option>
+            @foreach (var loc in ViewBag.locations)
+            {
+                <option value="@loc.locationId">@loc.location</option>
+            }
+        </select>
+    </div>
+
+    <div class="col-md-4">
+        <label for="annualIncome" class="form-label">Annual CTC</label>
+        <input for="annualIncome" class="form-control" id="annualIncome">
+    </div>
+    <div class="col-md-4">
+        <label for="taxable" class="form-label">Taxable (Monthly)</label>
+        <input for="taxable" class="form-control" id="taxable">
+    </div>
+    <div class="col-md-4">
+        <label for="pfCuts" class="form-label">PF Cuts (Monthly)</label>
+        <input for="pfCuts" class="form-control" id="pfCuts">
+    </div>
+    <div class="custom-file-group col-md-4">
+        <label for="image" class="custom-file-label">Profile Picture</label><br />
+        <input type="file" name="filepath" class="custom-file-input" id="pfp">
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" style="background-color:#012970;" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" id="regEmp">Register Employee</button>
+    </div>
+  @*   <div class="col-md-4">
+        <label for="supervisorId" class="control-label">Reporting To</label>
+        <select for="supervisorId" id="supervisorId" name="supervisorId" class="form-control">
+            <option value=""></option>
+
+            @foreach (var supervisor in ViewBag.emp)
+            {
+                <option value="@supervisor.empId">@supervisor.firstName + " " +@supervisor.lastName </option>
+            }
+        </select>
+    </div> *@
+
+ 
+
+    <div class="custom-file-group col-md-4">
+    </div>
+
+   
+
+
+</form><!-- End Multi Columns Form -->
+@section scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <script>
+        function calculateAge() {
+            const dobInput = document.getElementById("birthDate");
+            const ageInput = document.getElementById("age");
+            const dobValue = dobInput.value;
+            if (dobValue) {
+                const dobDate = new Date(dobValue);
+                const today = new Date();
+                const age = today.getFullYear() - dobDate.getFullYear();
+                if (today.getMonth() < dobDate.getMonth() || (today.getMonth() === dobDate.getMonth() && today.getDate() < dobDate.getDate())) {
+                    age--;
+                }
+                ageInput.value = age;
+            } else {
+                ageInput.value = "";
+            }
+        }
+        document.getElementById("birthDate").addEventListener("change", calculateAge);
+
+        $("#regEmp").click(function () {
+            // alert($("#pfp").val());
+
+            if ($("#firstName").val() != '' && $("#lastName").val() != ''
+                && $("#UserName").val() != '' && $("#Password").val() != '' && $("#ConfirmPassword").val() != ''
+                && $("#birthDate").val() != '' && $("#sex").val() != '' && $("#address").val() != ''
+                && $("#deptId").val() != '' && $("#positionId").val() != '' && $("#locationId").val() != ''
+               /*  && $("#pfp").val() != '' */ && $("#annualIncome").val() != '' && $("#taxable").val() != '' && $("#pfCuts").val() != '') {
+
+
+                $.ajax({
+                    "type": "POST",
+                    "url": '@Url.Action("Create", "Employee")',
+                    "dataType": "",
+                
+                    "data": {
+                        "firstName": $("#firstName").val(),
+                        "midName": $("#midName").val(),
+                        "lastName": $('#lastName').val(),
+                        "positionId": $('#positionId').val(),
+                        "deptId": $('#deptId').val(),
+                        "locationId": $('#locationId').val(),
+                        "birthDate": $('#birthDate').val(),
+                        "age": $('#age').val(),
+                        "sex": $('#sex').val(),
+                        "address": $('#address').val(),
+                        "supervisorId": $('#supervisorId').val(),
+                        // "filepath": $('#pfp').val()
+                    },
+
+                    "success": function (data) {
+                        var primaryKeyValue = parseInt(data);
+                        console.log("Employee Created Successfully.");
+
+                        $.ajax({
+                            url: '@Url.Action("Register", "Admin")',
+                            type: 'POST',
+                            data: {
+                                "empId": primaryKeyValue,
+                                "UserName": $("#UserName").val(),
+                                "Password": $("#Password").val(),
+                                "ConfirmPassword": $('#ConfirmPassword').val(),
+                            },
+                            success: function (response) {
+                                console.log("User Registered Successfully.");
+
+                                
+                            },
+                            error: function (error) {
+                                alert("In User Creation:" + typeof (data))
+                            }
+                        });
+
+                        $.ajax({
+                            url: '@Url.Action("Create", "Salary")',
+                            type: 'POST',
+                            data: {
+                                "empId": primaryKeyValue,
+                                "annualIncome": $("#annualIncome").val(),
+                                "taxable": $("#taxable").val(),
+                                "pfCuts": $('#pfCuts').val(),
+                            },
+                            success: function (response) {
+                                console.log("Salary Added Successfully.");
+                            },
+                            error: function (error) {
+                                alert("In Salary Association:" + typeof (data))
+                            }
+                        });
+
+                       
+
+                        window.location = '@Url.Action("Index", "Employee")';
+
+                    },
+
+                    "error": function (data) {
+                        alert("In Employee Registration:" + typeof (data))
+                    }
+                });
+            }
+            else if ($("#Password").val() != $("#ConfirmPassword").val()) {
+                alert("Password and Confirm Password do not Match!");
+            }
+            else {
+                alert("Fields missing! Try again");
+            }
+        })
+    </script>
+}

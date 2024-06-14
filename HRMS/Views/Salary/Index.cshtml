@@ -1,0 +1,153 @@
+﻿@model EmployeeSalary
+@{
+    var monthlyIncome = Model.annualIncome/12;
+    var totalDeduct = Model.taxable + Model.pfCuts;
+    var earnings = monthlyIncome - totalDeduct;
+}
+<title>
+    My Pay
+</title>
+
+<body>
+    <div class="pagetitle">
+        <h1>My Pay</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Home</li>
+                <li class="breadcrumb-item active">Pay</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+        
+        <div class="card info-card sales-card">
+            <div class="card-body">
+                <div class="row">
+                    <!-- Left side columns -->
+                    <div class="col-3">
+                        <!-- Donut Chart -->
+    
+                            <br /><br /><br />
+                            <div id="donutChart"></div>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new ApexCharts(document.querySelector("#donutChart"), {
+                                        series: [@monthlyIncome, @totalDeduct],
+                                        chart: {
+                                            height: 250,
+                                            type: 'donut',
+                                            toolbar: {
+                                                show: false
+                                            }
+                                        },
+                                        labels: ['Earnings', 'Deductions'],
+                                        colors: ['#43d59c', '#f44336'],
+                                        legend: {
+                                            position: 'bottom' // Set the legend position to top
+                                        }
+
+                                    }).render();
+                                });
+                            </script>
+                 
+                        <!-- End Donut Chart -->
+                    </div><!-- End Left side column -->
+
+                    <div class="col-4">
+                        <h5 class="card-title">Monthly CTC: ₹ @monthlyIncome<br /><span>Yearly CTC: ₹ @Model.annualIncome</span></h5>
+
+                        <div class="news">
+                            <div class="post-item clearfix">
+                                <h4>Taxable:</h4>
+                                <p>₹ @Model.taxable</p>
+                            </div>
+                            <div class="post-item clearfix">
+                                <h4>PF Cuts:</h4>
+                                <p>₹ @Model.pfCuts</p>
+                            </div>
+                            <div class="post-item clearfix">
+                                <h4>Total Deductions:</h4>
+                                <p>₹@totalDeduct</p>
+                            </div>
+                            <div class="post-item clearfix">
+                                <h4>Final Earnings:</h4>
+                                <p>₹ @earnings</p>
+                            </div>
+                        </div><!-- End sidebar recent posts-->
+
+                    </div><!-- End Right side columns -->
+
+                    <div class="col-5">
+                        <!-- Column Chart -->
+                        <div id="columnChart"></div>
+
+                        <script>
+                            document.addEventListener("DOMContentLoaded", () => {
+                                new ApexCharts(document.querySelector("#columnChart"), {
+                                    series: [{
+                                        name: 'Income',
+                                        data: [@monthlyIncome, @monthlyIncome, @monthlyIncome, @monthlyIncome, @monthlyIncome, @monthlyIncome]
+                                    }, {
+                                        name: 'Take Home',
+                                        data: [@earnings, @earnings, @earnings, @earnings, @earnings, @earnings]
+                                    }, {
+                                        name: 'Deductions',
+                                        data: [@totalDeduct, @totalDeduct, @totalDeduct, @totalDeduct, @totalDeduct, @totalDeduct]
+                                    }],
+                                    chart: {
+                                        type: 'bar',
+                                        height: 350,
+                                        toolbar: {
+                                            show: false
+                                        }
+                                    },
+                                    plotOptions: {
+                                        bar: {
+                                            horizontal: false,
+                                            columnWidth: '55%',
+                                            endingShape: 'rounded'
+                                        },
+                                    },
+                                    dataLabels: {
+                                        enabled: false
+                                    },
+                                    stroke: {
+                                        show: true,
+                                        width: 2,
+                                        colors: ['transparent']
+                                    },
+                                    xaxis: {
+                                        categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+                                    },
+                                    yaxis: {
+                                        title: {
+                                            text: '₹ (thousands)'
+                                        }
+                                    },
+                                    fill: {
+                                        opacity: 1
+                                    },
+                                    tooltip: {
+                                        y: {
+                                            formatter: function (val) {
+                                                return "$ " + val + " thousands"
+                                            }
+                                        }
+                                    }
+                                }).render();
+                            });
+                        </script>
+                        <!-- End Column Chart -->
+                    </div>
+
+                </div>
+
+                <!-- Right side columns -->
+
+            </div>
+        </div>
+
+    </section>
+
+</body>

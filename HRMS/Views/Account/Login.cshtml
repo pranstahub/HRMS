@@ -1,0 +1,61 @@
+﻿@model HRMS.Entity.ViewModels.UserViewModel
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "_NoNavLayout";
+}
+
+<style>
+    body {
+        background-image: url("https://www.fjg.co.uk/wp-content/uploads/2020/10/job-support-scheme.jpg");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100%;
+    }
+</style>
+
+<br />
+<br />
+<br />
+<br />
+
+<div class="card rounded-3 mx-auto shadow-3" style="width:50%; padding:15px; background-color:lightsteelblue;">
+    <div class="card-body">
+        <h1 class="card-title" style="text-align:center">
+            <img src="~/assets/img/logo.png" style="width:150px" alt="">
+            <br /><br />
+            Login
+        </h1>
+
+        <hr />
+        <div class="row">
+            <div class="col" style="text-align:center">
+                <form asp-action="Login">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="UserName" class="control-label"></label>
+                        <input asp-for="UserName" class="form-control" />
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label"></label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <input type="submit" value="Log In" class="btn btn-primary" style="background-color:#12a1d7" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

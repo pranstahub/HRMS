@@ -1,0 +1,109 @@
+﻿@model IEnumerable<News>
+<title>
+    News
+</title>
+
+<!-- Modal Dialog Scrollable -->
+
+<div class="modal fade" id="myNewsModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title card-title" style="padding:0">What's New?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="myNewsModalContent">
+               
+            </div>
+        </div>
+    </div>
+</div><!-- End Modal Dialog Scrollable-->
+
+<body>
+    <div class="row">
+        <div class="col-10">
+            <div class="pagetitle">
+                <div class="col-10">
+                    <h1>News</h1>
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Home</li>
+                            <li class="breadcrumb-item active">News</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="col-2" style="padding-top:40px;">
+            <a class="custom-btn" id="addNews" href="#">What's New?</a>
+        </div>
+    </div>
+
+
+    <section class="section dashboard">
+
+        <div class="card info-card sales-card">
+            <div class="card-body">
+                <!-- News & Updates Traffic -->
+
+                <div class="filter">
+                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                        <li class="dropdown-header text-start">
+                            <h6>Filter</h6>
+                        </li>
+
+                        <li><a class="dropdown-item" href="#">Today</a></li>
+                        <li><a class="dropdown-item" href="#">This Month</a></li>
+                        <li><a class="dropdown-item" href="#">This Year</a></li>
+                    </ul>
+                </div>
+
+                
+                    <h5 class="card-title">Latest Announcements</h5>
+
+                    <div class="news">
+                    @foreach(var news in Model)
+                    {
+                        <div class="post-item clearfix">
+                            <img src="~/assets/img/profile-img.jpg" style="width:50px" alt="user pfp">
+                            <h4><a href="#">@news.description</a></h4>
+                            @{
+                                var fullname = @news.empDetail.firstName + " " + @news.empDetail.lastName;
+                            }
+                            <h4><i style="-webkit-text-fill-color:grey">@fullname </i></h4>
+                            <p>@news.summary</p>
+                            <br /> <hr />
+                        </div>
+                    }
+                    </div><!-- End sidebar recent posts-->
+
+                
+            </div><!-- End News & Updates -->
+        </div>
+
+    </section>
+
+</body>
+
+@section scripts
+    {
+
+    <script>
+        $('#addNews').click(function () {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("AddNews", "News")',
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    $("#myNewsModalContent").html(data);
+                    $("#myNewsModal").modal('show');
+                },
+                error: function () {
+                    alert("Load Failed! Please contact your administrator.");
+                }
+            });
+        });
+    </script>
+    }

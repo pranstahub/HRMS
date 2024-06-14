@@ -1,0 +1,31 @@
+﻿@model News
+@{
+    Layout = "_NoNavLayout";
+}
+
+<!-- Horizontal Form -->
+<form asp-action="AddNews" method="post">
+    <div class="row mb-3">
+        <label asp-for="description" class="form-label">Title</label>
+        <input asp-for="description" class="form-control" id="description">
+        <span asp-validation-for="description" class="text-danger"></span>
+    </div>
+    <div class="row mb-3">
+        <label asp-for="summary" class="form-label">Content</label>
+        <textarea asp-for="summary" class="form-control" id="summary" rows="10" cols="50"></textarea>
+        <span asp-validation-for="summary" class="text-danger"></span>
+    </div>
+    <input asp-for="empId" class="form-control" id="empId" value="@ViewBag.EmpId" hidden>    
+    <div class="modal-footer">
+        <button type="submit" id ="submit" class="btn btn-success">Add News</button>
+    </div>
+</form><!-- End Horizontal Form -->
+@section scripts
+    {
+
+    <script>
+        $('#submit').click(function () {
+            window.location = '@Url.Action("Index", "News")';
+        });
+    </script>
+    }

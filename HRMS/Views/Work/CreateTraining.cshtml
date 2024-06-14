@@ -1,0 +1,27 @@
+﻿@model HRMS.Entity.Models.Training
+
+@{
+    Layout = "_NoNavLayout";
+}
+
+<div class="row" style="text-align:center">
+    <div class="col-md-12">
+        <form asp-action="CreateTraining">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="training" class="control-label">Training</label>
+                <input asp-for="training" class="form-control" />
+                <span asp-validation-for="training" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Add Training" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

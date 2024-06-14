@@ -1,0 +1,95 @@
+﻿@model HRMS.Entity.Models.EmployeeDetail
+
+@{
+    ViewData["Title"] = "Details";
+}
+<br /><br />
+<section class="section dashboard">
+
+    <div class="card info-card sales-card">
+        <div class="card-body">
+            <h5 class="card-title">Employee Details</h5>
+            <dl class="row" >
+                <dt class="col-sm-2">
+                    Employee ID:
+                </dt>
+                <dd class="col-sm-2">
+                    @Html.DisplayFor(model => model.empId)
+                </dd>
+                <dt class="col-sm-2">
+                    First Name:
+                </dt>
+                <dd class="col-sm-2">
+                    @Html.DisplayFor(model => model.firstName)
+                </dd>
+                <dt class="col-sm-2">
+                    Last Name:
+                </dt>
+                <dd class="col-sm-2">
+                    @Html.DisplayFor(model => model.lastName)
+                </dd>
+                <dt class="col-sm-2">
+                    Middle Name:
+                </dt>
+                <dd class="col-sm-2">
+                    @Html.DisplayFor(model => model.midName)
+                </dd>
+                <dt class="col-sm-2">
+                    Position:
+                </dt>
+                <dd class="col-sm-2">
+                    @Html.DisplayFor(model => model.position.positionName)
+                </dd>
+                <dt class="col-sm-2">
+                    Department:
+                </dt>
+                <dd class="col-sm-2">
+                    @Html.DisplayFor(model => model.department.departmentName)
+                </dd>
+                <dt class="col-sm-2">
+                    Location:
+                </dt>
+                <dd class="col-sm-2">
+                    @Html.DisplayFor(model => model.location.location)
+                </dd>
+                <dt class="col-sm-2">
+                    Date Of Birth:
+                </dt>
+                <dd class="col-sm-2">
+                    @Html.DisplayFor(model => model.birthDate)
+                </dd>
+                <dt class="col-sm-2">
+                    Age:
+                </dt>
+                <dd class="col-sm-2">
+                    @Html.DisplayFor(model => model.age)
+                </dd>
+                <dt class="col-sm-2">
+                    Sex:
+                </dt>
+                <dd class="col-sm-2">
+                    @Html.DisplayFor(model => model.sex)
+                </dd>
+                <dt class="col-sm-3">
+                    Date Of Employment:
+                </dt>
+                <dd class="col-sm-5">
+                    @Html.DisplayFor(model => model.employedDate)
+                </dd>
+                <dt class="col-sm-2">
+                    Address:
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.address)
+                </dd>
+                <dd class="col-sm-12">
+                    <a class="btn custom-btn" style="float:right" asp-action="Index">Back </a>
+
+                </dd>
+            </dl>
+        </div>
+       
+
+</section>
+
+    

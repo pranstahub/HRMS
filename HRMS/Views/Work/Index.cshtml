@@ -1,0 +1,179 @@
+﻿@{
+    var projects = ViewBag.projects as IEnumerable<EmployeeProject>;
+    var trainings = ViewBag.trainings as IEnumerable<EmployeeTraining>;
+}
+
+<title>
+    My Works
+</title>
+<!-- Proj Modal -->
+<div class="modal fade" id="projModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title card-title" style="padding:0">Add Department</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="projContent">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Train Modal -->
+<div class="modal fade" id="trainModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title card-title" style="padding:0">Add Position</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="trainContent">
+            </div>
+        </div>
+    </div>
+</div>
+
+<body>
+
+    <div class="row">
+        <div class="col-8">
+            <div class="pagetitle">
+                <h1>My Works</h1>
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">Home</li>
+                        <li class="breadcrumb-item active">Work</li>
+                    </ol>
+                </nav>
+            </div><!-- End Page Title -->
+        </div>
+        @if (User.IsInRole("Supervisor") || User.IsInRole("Admin") )
+        {
+            <div class="col-2" style="padding-top:40px;">
+
+                <button class="btn custom-btn dropdown-toggle" style="float:right" type="button" id="assign" data-bs-toggle="dropdown" aria-expanded="false">
+                    Assign
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="assign">
+                    <li><a class="dropdown-item" asp-action="AssignProject" id="assignProj">Assign Project</a></li>
+                    <li><a class="dropdown-item" href="#" id="assignTrain">Assign Training</a></li>
+                </ul>
+
+            </div>
+            <div class="col-2" style="padding-top:40px;">
+
+                <button class="btn custom-btn dropdown-toggle"  type="button" id="add" data-bs-toggle="dropdown" aria-expanded="false">
+                    Add
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="manageUsers">
+                    <li><a class="dropdown-item" href="#" id="addProject">Add Project</a></li>
+                    <li><a class="dropdown-item" href="#" id="addTraining">Add Training</a></li>
+                </ul>
+
+            </div>
+        }
+        
+    </div>
+
+    
+
+    <section class="section dashboard">
+        <div class="row">
+            <!-- Projects Card -->
+            <div class="col-xxl-4 col-md-6">
+                <div class="card info-card sales-card">
+                    <div class="filter">
+                        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                            <li class="dropdown-header text-start">
+                                <h6>Status</h6>
+                            </li>
+                            <li><a class="dropdown-item" href="#">Active</a></li>
+                            <li><a class="dropdown-item" href="#">Completed</a></li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">My Projects <span>| Active</span></h5>
+                        <div class="d-flex align-items-center">
+                            <ul>
+                                @foreach(var proj in projects)
+                                {
+                                    if(proj.empId == ViewBag.userId)
+                                    {
+                                        <li>@proj.project.project</li>
+
+                                    }
+                                }
+                               
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- End Projects Card -->
+            <!-- Training Card -->
+            <div class="col-xxl-4 col-md-6">
+                <div class="card info-card sales-card">
+                    <div class="filter">
+                        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                            <li class="dropdown-header text-start">
+                                <h6>Status</h6>
+                            </li>
+                            <li><a class="dropdown-item" href="#">Active</a></li>
+                            <li><a class="dropdown-item" href="#">Completed</a></li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">My Trainings <span>| Active</span></h5>
+                        <div class="d-flex align-items-center">
+                            <ul>
+                                @foreach (var train in trainings)
+                                {
+                                    <li>@train.training.training</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- End Training Card -->
+    </section>
+
+</body>
+
+@section scripts{
+    <script>
+        $('#addProject').click(function () {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("CreateProject", "Work")',
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    $("#projContent").html(data);
+                    $("#projModal").modal('show');
+                },
+                error: function () {
+                    // alert("Load Failed! Please contact your administrator.");
+                    alert(typeof(error));
+                }
+            });
+        });
+
+        $('#addTraining').click(function () {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("CreateTraining", "Work")',
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    $("#trainContent").html(data);
+                    $("#trainModal").modal('show');
+                },
+                error: function () {
+                    alert("Load Failed! Please contact your administrator.");
+                }
+            });
+        });
+    </script>
+}

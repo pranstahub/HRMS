@@ -1,0 +1,75 @@
+﻿@model HRMS.Entity.Models.EmployeeProject
+
+@{
+  
+
+}
+<br />
+<br />
+
+
+
+<!-- Department Card -->
+<div class="col-12">
+    <div class="card info-card sales-card">
+        <div class="card-body">
+            <h5 class="card-title">
+                Assign Project
+                
+            </h5>
+            <form asp-action="AssignProject">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <div class="col-6 form-group">
+                        <label asp-for="empId" class="control-label">Employee</label>
+                        <select asp-for="empId" class="form-control">
+                            @foreach (var emp in ViewBag.employees)
+                            {
+
+                                var fullName = emp.firstName + " " + emp.lastName;
+
+                                <option value="@emp.empId">@fullName</option>
+                            }
+                        </select>
+                        <span asp-validation-for="empId" class="text-danger"></span>
+                    </div>
+                    <div class="col-6 form-group">
+                        <label asp-for="projectId" class="control-label">Project</label>
+                        <select asp-for="projectId" class="form-control">
+                            @foreach (var proj in ViewBag.projects)
+                            {
+
+                                <option value="@proj.projectId">@proj.project</option>
+                            }
+                        </select>
+                        <span asp-validation-for="projectId" class="text-danger"></span>
+                    </div>
+                    <div class="col-6 form-group">
+                        <label asp-for="dateEnded" class="control-label">Deadline</label>
+                        <input asp-for="dateEnded" class="form-control" />
+                        <span asp-validation-for="dateEnded" class="text-danger"></span>
+                    </div>
+
+                    <input asp-for="dateStarted" class="form-control" value="@DateTime.Now" hidden />
+                    <input asp-for="status" class="form-control" value="In Progress" hidden />
+
+
+                    <div class="col-6 form-group">
+                        <br />
+                        <a asp-action="Index" class="btn custom-btn">Back to List</a>
+                        <input type="submit" value="Assign" class="btn btn-success" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div><!-- End Dept Card -->
+
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

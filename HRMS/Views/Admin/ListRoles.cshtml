@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+@{
+    Layout = "_NoNavLayout";
+}
+<!-- Create Roles Modal -->
+<div class="modal fade" id="emp4" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title card-title" style="padding:0">Add Role</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="background-color:lightsteelblue" id="emp4content">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card-body rounded-3">
+    <table class="table">
+        <thead>
+            <tr style="text-align:center">
+                <th>
+                    Roles
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr style="text-align:center">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+
+                    </td>
+                    @*  <td>
+                <a asp-action="ManageRoleClaims" asp-controller="Admin" asp-route-id="@item.Id" class="btn btn-outline-dark">Manage Claims</a>
+                </td> *@
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button style = "float:right" type="button" class="btn btn-success" id="anr">Add New Role</button>
+
+</div>
+
+@section scripts{
+    <script>
+        $('#anr').click(function () {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("CreateRole", "Admin")',
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    $("#emp4content").html(data);
+                    $("#emp4").modal('show');
+                },
+                error: function () {
+                    alert("Load Failed! Please contact your administrator.");
+                }
+            });
+        });
+    </script>
+}

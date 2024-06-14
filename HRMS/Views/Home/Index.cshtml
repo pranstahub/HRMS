@@ -1,0 +1,222 @@
+﻿@{
+    var newsModel = ViewBag.news as IEnumerable<News>;
+    var projModel = ViewBag.projects as IEnumerable<EmployeeProject>;
+    var trainModel = ViewBag.trainings as IEnumerable<EmployeeTraining>;
+}
+
+<title>
+    Home
+</title>
+
+<body>
+
+    <div class="pagetitle">
+        <h1>Dashboard</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+        <div class="row">
+
+            <!-- Left side columns -->
+            <div class="col-lg-8">
+                <div class="row">
+
+                    <!-- Leave Card -->
+                    <div class="col-xxl-4 col-md-6">
+                        <div class="card info-card sales-card">
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Leave Type</h6>
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Annual</a></li>
+                                    <li><a class="dropdown-item" href="#">Casual</a></li>
+                                    <li><a class="dropdown-item" href="#">Medical</a></li>
+                                    <li><a class="dropdown-item" href="#">Compensatory</a></li>
+                                    <li><a class="dropdown-item" href="#">Compassionate</a></li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">My Leaves <span>| All</span></h5>
+                                <div class="d-flex align-items-center">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="card-icon rounded-circle  d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-calendar2-heart"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <h5 class="card-title"> <span>Available: <span class="text-success pt-1 fw-bold">12</span> </span></h5>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="card-icon rounded-circle  d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-calendar2-check"></i>
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <h5 class="card-title"> <span>Booked: <span class="text-danger pt-1 fw-bold">12</span> </span></h5>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- End Leave Card -->
+
+                    <!-- Birthday Card -->
+                    <div class="col-xxl-4 col-md-6">
+                        <div class="card info-card revenue-card">
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
+
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Birthdays <span>| Today</span></h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-cake2"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h5 class="card-title"> <span>No Birthday No Cake :( </span></h5>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- End Birthday Card -->
+
+                    <!-- Work Card -->
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Work Types</h6>
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Projects</a></li>
+                                    <li><a class="dropdown-item" href="#">Trainings</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="card-body">
+                                <h5 class="card-title">My Works <span>| Projects</span></h5>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="card info-card revenue-card">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Projects <span>| Assigned</span></h5>
+                                                <div class="d-flex align-items-center">
+                                                    <ul>
+                                                        @foreach (var proj in projModel)
+                                                        {
+                                                            if (proj.empId == ViewBag.userId)
+                                                            {
+                                                                <li>@proj.project.project</li>
+
+                                                            }
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="card info-card revenue-card">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Trainings <span>| Assigned</span></h5>
+                                                <div class="d-flex align-items-center">
+                                                    <ul>
+                                                        @foreach (var train in trainModel)
+                                                        {
+                                                            if (train.empId == ViewBag.userId)
+                                                            {
+                                                                <li>@train.training.training</li>
+
+                                                            }
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div> 
+                    <!-- ENd Work Card -->
+
+            </div>
+        
+        </div><!-- End Left side columns -->
+        <!-- Right side columns -->
+        <div class="col-lg-4">
+
+
+
+            <!-- News & Updates Traffic -->
+            <div class="card">
+                <div class="filter">
+                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                        <li class="dropdown-header text-start">
+                            <h6>Filter</h6>
+                        </li>
+
+                        <li><a class="dropdown-item" href="#">Today</a></li>
+                        <li><a class="dropdown-item" href="#">This Month</a></li>
+                        <li><a class="dropdown-item" href="#">This Year</a></li>
+                    </ul>
+                </div>
+
+                <div class="card-body pb-0">
+                    <h5 class="card-title">News &amp; Updates <span>| Today</span></h5>
+
+                    <div class="news">
+                        @foreach (var news in newsModel)
+                        {
+                            <div class="post-item clearfix">
+                                <img src="~/assets/img/profile-img.jpg" style="width:50px" alt="user pfp">
+                                <h4><a href="#">@news.description</a></h4>
+                                @{
+                                    var fullname = @news.empDetail.firstName + " " + @news.empDetail.lastName;
+                                }
+                                <h4><i style="-webkit-text-fill-color:grey">@fullname </i></h4>
+                                <p>@news.summary</p>
+                                <br /> <hr />
+                            </div>
+                        }
+
+
+                    </div><!-- End sidebar recent posts-->
+
+                </div>
+            </div><!-- End News & Updates -->
+
+        </div><!-- End Right side columns -->
+        </div>
+    </section>
+
+</body>

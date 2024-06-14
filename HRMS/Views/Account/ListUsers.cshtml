@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser>
+
+@{
+    Layout = "_NoNavLayout";
+}
+
+<!-- Assign Roles Modal -->
+<div class="modal fade" id="emp" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title card-title" style="padding:0">Assign Roles</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="background-color:lightblue" id="empContent">
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="card-body rounded-3">
+        <table class="table">
+            <thead>
+                <tr style="text-align:center">
+                    <th>
+                       Username
+                    </th>
+                    <th>
+                        E-mail
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr style="text-align:center">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            <input hidden id="assVal" value="@item.Id">
+                            <a href="#" id="ass"  class="btn btn-success">Assign Role</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+ 
+@section scripts
+    {
+
+    <script>
+
+        $('#ass').click(function () {
+            var valId = $('#assVal').val();
+            console.log(valId);
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("AssignRoles", "Admin")',
+                data: { "id": valId },
+                success: function (data) {
+                    $("#empContent").html(data);
+                    $("#emp").modal('show');
+                },
+                error: function () {
+                    alert("Load Failed! Please contact your administrator.");
+                }
+            });
+        });
+    </script>
+    }
+
+
+

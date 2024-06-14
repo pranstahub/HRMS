@@ -1,0 +1,214 @@
+﻿@model IEnumerable<EmployeeDetail>
+@{
+    var images = "";
+}
+
+<title>
+    Manage Employees
+</title>
+
+<!-- Add Employee Modal -->
+<div class="modal fade" id="empModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title card-title" style="padding:0;">Employee Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="empModalContent" style="background-color:#f6f9ff">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- List Users Modal -->
+<div class="modal fade" id="emp2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title card-title" style="padding:0">Registered Users</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="emp2content">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" style="background-color:#012970;" data-bs-dismiss="modal">Done</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- List Roles Modal -->
+<div class="modal fade" id="emp3" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title card-title" style="padding:0">Manage Roles</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="emp3content">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<body>
+    <div class="row">
+        <div class="col-8">
+            <div class="pagetitle">
+                <div class="col-10">
+                    <h1>Manage Employees</h1>
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Home</li>
+                            <li class="breadcrumb-item active">Manage Employees</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="col-2" style="padding-top:40px;">
+
+            <button class="btn custom-btn dropdown-toggle" style="float:right" type="button" id="manageUsers" data-bs-toggle="dropdown" aria-expanded="false">
+                Manage Users
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="manageUsers">
+                <li><a class="dropdown-item" href="#" id="listUsers">Assign Roles</a></li>
+                <li><a class="dropdown-item" href="#" id="listRoles">Manage Roles</a></li>
+            </ul>
+
+        </div>
+        <div class="col-2" style="padding-top:40px;">
+            <a class="custom-btn" id="addEmp" href="#">Add Employee</a>
+        </div>
+    </div>
+
+
+    <section class="section dashboard">
+
+        <div class="card info-card sales-card">
+            <div class="card-body">
+                <!-- Employee List -->
+                <h5 class="card-title">Current Employees</h5>
+                    <table class="table table-striped table-bordered table-hover" id="myTable" style="background-color:white;width:100%;text-align:center">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Full Name</th>
+                                <th>Position</th>
+                                <th>Department</th>
+                                <th>Location</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+
+    </section>
+
+</body>
+
+@section scripts
+    {
+    <link href="~/lib/datatables/css/datatables.bootstrap.css" rel="stylesheet" />
+    <link href="~/lib/datatables/css/datatables.bootstrap.min.css" rel="stylesheet" />
+    <script src="~/lib/datatables/js/jquery.datatables.js"></script>
+    <script src="~/lib/datatables/js/jquery.datatables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#myTable").DataTable(
+                {
+                    "processing": false,
+                    "serverSide": false,
+                    "filter": true,
+                    "paging": true,  // Disable pagination
+                    "bLengthChange": true,
+
+                    "ajax": {
+                        "url": '@Url.Action("getJsonEmployee","Employee")',
+                        "type": "GET",
+                        "datatype": "json"
+                    },
+                    "columnDefs": [{
+                        "targets": [0],
+                        "visible": true,
+                        "searchable": true
+                    }],
+                    "columns": [
+                        { "data": "empId", "name": "ID", "autoWidth": true },
+                        {
+                            "name": "Full Name",
+                            "autoWidth": true,
+                            "render": function (data, type, full, meta) {
+                                // Concatenate firstName and lastName
+                                return full.firstName + ' ' + full.lastName;
+                            }
+                        },
+                        { "data": "position.positionName", "name": "Position", "autoWidth": true },
+                        { "data": "department.departmentName", "name": "Department", "autoWidth": true },
+                        { "data": "location.location", "name": "Location", "autoWidth": true },
+                        {
+                            "render": function (data, type, row) {
+                                return '<a href="/Employee/Details/' + row.empId + '"  class="btn btn-outline-info" ><i class="bi bi-info-circle"></i></a> <a href="/Employee/Edit/' + row.empId + '" class="btn btn-outline-primary"> <i class="bi bi-pencil-square"></i> </a> <a href="/Employee/Delete/' + row.empId + '"  class="btn btn-outline-danger"> <i class="bi bi-trash3-fill"></i></a>';
+                            }
+                        },
+
+
+                    ]
+                });
+        });
+
+        $('#addEmp').click(function () {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("Create", "Employee")',
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    $("#empModalContent").html(data);
+                    $("#empModal").modal('show');
+                },
+                error: function () {
+                    alert("Load Failed! Please contact your administrator.");
+                }
+            });
+        });
+
+        $('#listUsers').click(function () {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("ListUsers", "Account")',
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    $("#emp2content").html(data);
+                    $("#emp2").modal('show');
+                },
+                error: function () {
+                    alert("Load Failed! Please contact your administrator.");
+                }
+            });
+        });
+
+        $('#listRoles').click(function () {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("ListRoles", "Admin")',
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    $("#emp3content").html(data);
+                    $("#emp3").modal('show');
+                },
+                error: function () {
+                    alert("Load Failed! Please contact your administrator.");
+                }
+            });
+        });
+    </script>
+    }

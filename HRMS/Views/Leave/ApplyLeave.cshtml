@@ -1,0 +1,31 @@
+﻿@model EmployeeLeave
+@{
+    Layout = "_NoNavLayout";
+}
+
+<!-- Multi Columns Form -->
+<form class="row g-3">
+
+    <div class="col-md-12">
+        <label asp-for="leaveId" class="control-label">Leave Type</label>
+        <select asp-for="leaveId" id="leaveId" name="leaveId" class="form-control">
+            @foreach (var leave in ViewBag.leaves)
+            {
+                <option value="@leave.leaveId">@leave.leaveName</option>
+            }
+        </select>
+        <span asp-validation-for="leaveId" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="startDate" class="form-label">Start Date</label>
+        <input asp-for="startDate" class="form-control" id="startDate">
+        <span asp-validation-for="startDate" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="endDate" class="form-label">End Date</label>
+        <input asp-for="endDate" class="form-control" id="endDate">
+        <span asp-validation-for="endDate" class="text-danger"></span>
+    </div>
+</form><!-- End Multi Columns Form -->
